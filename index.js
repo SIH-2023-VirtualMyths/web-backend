@@ -54,9 +54,12 @@ udpServer.bind(UDP_PORT, () => {
 });
 
 
+app.get('/', (req, res)=> {
+    return res.send("Welcome to DNS Filter");
+})
 
 // Route to handle domain verification and IP resolution
-app.post('/checkDomain', isMalicious, resolveIP, (req, res) => {
+app.post('/checkDomain', isMalicious, resolveIP, async(req, res) => {
     const domain = req.body.domain;
     const ipAddress = req.ipAddress;
     res.json({ isSuccess: true, domain, ipAddress });
