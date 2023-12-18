@@ -53,6 +53,9 @@ udpServer.bind(UDP_PORT, () => {
     console.log(`UDP server listening on port ${UDP_PORT}`);
 });
 
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 
 app.get('/', (req, res)=> {
     return res.send("Welcome to DNS Filter");
@@ -71,9 +74,4 @@ app.post('/checkDomain', isMalicious, resolveIP, async(req, res) => {
 //   console.log("scheduler running");
 //   await fetchDataAndUpdateLocalFile(); // Update local file
 // });
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
-
 module.exports = app
