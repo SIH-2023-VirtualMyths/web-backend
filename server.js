@@ -6,6 +6,7 @@ const udp = require('dgram');
 const cron = require('node-cron');
 const {isMalicious, resolveIP} = require('./src/utils/utils');
 const fetchDataAndUpdateLocalFile = require('./src/utils/script');
+const { default: fetch } = require('node-fetch');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -64,6 +65,19 @@ app.get('/', (req, res)=> {
 // Route to handle domain verification and IP resolution
 app.post('/checkDomain', isMalicious, resolveIP, async(req, res) => {
     const domain = req.body.domain;
+    const data = {"url": `https://www.${domain}`}
+    const isPhis = await fetch("http://localhost:5000/checkPhishing", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+          },
+        body: JSON.stringify(data)
+    })
+    const result = await isPhis.json();
+    console.log(result)
+    if(result['isMalicious']==true) {
+       return res.json({ isMalicious: true});
+    }
     const ipAddress = req.ipAddress;
     res.json({ isSuccess: true, domain, ipAddress });
 });
