@@ -14,7 +14,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const UDP_PORT = process.env.UDP_PORT || 3001;
 
-const dbUrl = "mongodb+srv://tanvi12s:prachi%4011@cluster0.iiyqe.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const dbUrl = process.env.URL
 
 mongoose.set('strictQuery', false);
 
